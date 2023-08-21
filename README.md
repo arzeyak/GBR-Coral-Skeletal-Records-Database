@@ -1,2 +1,2 @@
 # GBR-Coral-Archive
-An archive or coral from drilling in the GBR
+An archive for coral from drilling in the GBR
