@@ -1,7 +1,6 @@
----
-title: "GBRCD Example R Code"
-author: "Ariella Arzey"
-date: "2023-11-30"
+# title: "GBRCD Example R Code"
+# author: "Ariella Arzey"
+# date: "2023-11-30"
 
 
 ## R example code for handling GBRCD
