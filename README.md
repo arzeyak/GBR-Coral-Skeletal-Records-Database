@@ -11,5 +11,5 @@ The GBRCD accepts both published and unpublished records from GBR corals that in
 * an age model. Each record needed to include relevant chronology.
 
 
-To submit GBR coral records to the database please email GBRCDsubmissions@outlook.com
+To submit GBR coral records to the database please email <GBRCDsubmissions@outlook.com>
 
