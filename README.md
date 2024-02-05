@@ -5,7 +5,7 @@ A description of the database is found in the database description paper availab
 
 A selection of code for handling the database is available here.
 
-The GBRCD only includes records with proxy measurements from coral skeletons (i.e. geochemical analysis, luminescence), but will archive additional measurements for a coral records alongside target data if it uses the same age model (resolution and time points). 
+The GBRCD only includes records with proxy measurements from coral skeletons (i.e. geochemical analysis, luminescence), but will archive additional measurements for a coral record alongside target data if it uses the same age model (resolution and time points). 
 
 The GBRCD accepts both published and unpublished records from GBR corals that include:
 * corals from GBR locations (and Flinders Reef due to its regional context and latitudinal relevance). 
