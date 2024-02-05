@@ -21,16 +21,17 @@ qldmap <- ozmaps::ozmap_states %>% filter(NAME == "Queensland")
 ```
 
 ## Load metadata and database files
+# v1.0 is the current version as of Feb. 2024
 
 # Read GBRCD metadata file
 metaD <- read.csv("GBRCD_metadata_v1.0.csv")
 
 # Load GBRCD datasets
 # Get list of GBRCD file names
-data_files_list <- list.files(path = "./GBRCD_files_v1/", pattern = ".csv") 
+data_files_list <- list.files(path = "./GBRCD_files_v1.0/", pattern = ".csv") 
 # Load list of GBRCD files
 data_files <- lapply(data_files_list, 
-                     function(xx) read.csv(paste0(".\\GBRCD_files_v1/", xx))) 
+                     function(xx) read.csv(paste0(".\\GBRCD_files_v1.0/", xx))) 
 # Assign name to all loaded data files
 names(data_files) <- gsub("\\.csv$", "", data_files_list)
 
