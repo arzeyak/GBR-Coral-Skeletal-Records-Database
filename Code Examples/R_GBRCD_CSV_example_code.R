@@ -66,8 +66,14 @@ data_metaD <-
                                   ifelse( geo_latitude < -20, "South", 
                                           "Central"))) %>%
 # Add columns to convert decimal dates to dates, month and year
-           mutate(dates = date_decimal(Age), MONTH = month(date_decimal(Age)), 
-                  Year = year(date_decimal(Age))))
+  # Note: lubridate date_decimal assumes astronomical numbering so conversion 
+  # unnecessarily subtracts an additional year from BCE dates. 
+  # Exceptions are when whole year integers translate to 01/01/[BCE YEAR]
+           mutate(MONTH = month(date_decimal(Age)), Year = year(date_decimal(Age))) %>%
+           mutate(Year = ifelse(grepl("^LE05", cdata_datasetID) & Year < 0, Year, 
+                                 ifelse(grepl("^LO14", cdata_datasetID) & Year < 0, Year,
+                                       ifelse(grepl("^LE16", cdata_datasetID) & Year < 0, Year,
+                                 ifelse(Year < 0, Year + 1, Year))))))
 
 
 
