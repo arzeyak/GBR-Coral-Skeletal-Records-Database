@@ -36,7 +36,7 @@ qldmap <- ozmaps::ozmap_states %>% filter(NAME == "Queensland")
 ```
 
 ## Load metadata and database files
-
+# v1.0 is the current version as of Feb. 2024
 ```{r data}
 
 # Read GBRCD metadata file
@@ -45,10 +45,10 @@ metaD <- read.csv("GBRCD_metadata_v1.0.csv")
 # Load GBRCD datasets
 
 # Get list of GBRCD file names
-data_files_list <- list.files(path = "./GBRCD_files_v1/", pattern = ".csv") 
+data_files_list <- list.files(path = "./GBRCD_files_v1.0/", pattern = ".csv") 
 # Load list of GBRCD files
 data_files <- lapply(data_files_list, 
-                     function(xx) read.csv(paste0(".\\GBRCD_files_v1/", xx))) 
+                     function(xx) read.csv(paste0(".\\GBRCD_files_v1.0/", xx))) 
 # Assign name to all loaded data files
 names(data_files) <- gsub("\\.csv$", "", data_files_list)
 ```
@@ -118,7 +118,7 @@ Ba/Ca is used as an example variable to filter the GBRCD
 Suggested fields for filtering:
 
 - Record coverage (note this is  number of years of data and accounts for gaps):
-  - cdata_dataCoverageGroup (See Table 6)
+  - cdata_dataCoverageGroup (1 = >100 years, 2 = 10-100 years & 3 = <10 years of data)
 
 - Proxy Type: 
   - meths_primaryVariablesList (e.g. BaCa, d11B, d18O, SrCa; see Table 4)
