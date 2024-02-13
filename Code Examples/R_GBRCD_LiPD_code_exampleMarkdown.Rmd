@@ -1,0 +1,282 @@
+---
+title: "GBRCD Example R Code for LiPD version"
+author: "Ariella Arzey"
+date: "2024-02-05"
+output:
+  pdf_document: 
+    latex_engine: xelatex
+  html_document: default
+---
+
+```{r setup, include=FALSE, warning = FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+options(dplyr.summarise.inform = FALSE)
+suppressWarnings(suppressMessages(library(lubridate)))
+```
+
+## R Markdown document with example code for handling GBRCD LiPD
+
+This document contains examples for how users can process, subset and visualise the GBRCD. The example demonstrates handling LiPD data and filtering the data by proxy, age and location. The example demonstrates how to produce two types of figures; line plots for visualising the record data and maps for visualising locations.   
+
+```{r setup1, results='hide', message=FALSE, warnings=FALSE}
+
+## Load required packages ##
+
+# To work with LiPD format files
+library(lipdR) 
+# For plotting
+library(geoChronR) 
+# Tidyverse includes dplyr (for data frame manipulation), 
+# lubridate (for handling dates) & ggplot2 (for plotting)
+library(tidyverse) 
+
+
+```
+
+## Load LiPD files
+
+Example of loading GBRCD data from lipdverse (v1_0_0 is the current version as of February 2024). Check https://lipdverse.org/GBRCD/current_version/ for updates.
+
+Alternatively, data can be loaded from a local copy of the GBRCD.
+
+```{r GBRCD data, results='hide', message=FALSE, warnings=FALSE}
+
+# Load data from lipdverse
+gbrcd_lipd <- readLipd('https://lipdverse.org/GBRCD/current_version/GBRCD1_0_0.zip')
+
+# Alternatively load the GBRCD from a local copy of the data.
+  # Unzip the GBRCD zip file (i.e. GBRCD1_0_0.zip) before running the code.
+  # Select 'd' to load directory at the prompt, and select any file within the unzipped folder.
+
+# gbrcd_lipd <- readLipd()
+# OR
+# gbrcd_lipd <- <- readLipd(path = "") 
+```
+
+## Show metadata
+
+Check metadata of the first and last datasets in the LiPD database.
+
+```{r metadata show, results = 'asis'}
+# Use to view first dataset
+head(gbrcd_lipd, 1)
+
+# Use to view last dataset
+tail(gbrcd_lipd, 1)
+```
+
+## Convert the LiPD object
+
+Convert the multi-LiPD object into a LiPD time series object (TS) for manipulation and filtering. 
+
+Includes an example of a summary of GBRCD data (spatial and temporal coverage)
+
+```{r GBRCD convert, message=FALSE, warning = FALSE}
+
+# Extract multi-LiPD object (GBRCD directory) to a TS object
+gbrcd_TS <- extractTs(gbrcd_lipd)
+
+# Display summary plot
+  # No colour options can currently be applied
+gbrcd_summ <- plotSummaryTs(gbrcd_TS,
+                      sort.var = "archiveType",
+                      age.var = "year",
+                      lat.range = c(-11.5, -24),
+                      lon.range = c(142.5, 153),
+                      size = 2)
+
+
+```
+
+## Filter datasets by proxies, location, resolution, etc.
+
+ An example for how to subset/filter by properties. 
+ 
+ Ba/Ca is used as an example variable to filter the GBRCD
+ 
+ Suggested fields for filtering:
+   
+ - Record coverage (note this is  number of years of data and accounts for gaps):
+   - paleoData_gbrDataCoverageGroup (1 = >100 years, 2 = 10-100 years & 3 = <10 years of data)
+ 
+ - Temporal Coverage (note this is total temporal span of records):
+   - minYear (record start year)
+   - maxYear (record end year)
+ 
+ - Record Resolution:
+   - paleoData_samplingResolution (nominal resolution)
+ 
+ - Location:
+   - geo_latitude  (record latitude; degrees N (all GBR latitudes are negative))
+   - geo_longitude (record longitude; degrees E (all GBR longitudes are positive))
+   - geo_siteName  (name of the site/reef)
+ 
+ - Species: 
+   - paleoData_sensorSpecies (coral genus and species (if known))
+ 
+ - Record Method:
+   - paleoData_measurementMethod (method used for record measurement)
+ 
+ - SST Calibration:
+   - gbrIsSstCalibration (record is SST calibration dataset (SrCa, UCa, d18O); T/F)
+   - gbrUseSstCalibration (record uses SST calibration (SrCa, UCa, d18O); T/F)
+ 
+ ** All metadata fields may be be used for filtering, but the above list above includes the suggested starting point for investigating the data.
+
+
+
+```{r GBRCD filter example, message=FALSE, warning=FALSE}
+
+# We can convert the lipd-TS to a tibble to filter the database even more efficiently:
+gbrcd_tib <- ts2tibble(gbrcd_TS)
+
+# Filter for proxy of choice e.g. Ba/Ca
+gbrcd_baca_tib<- gbrcd_tib %>% 
+  filter(paleoData_variableName == "BaCa")
+
+# Convert to TS
+gbrcd_baca_Ts <- as.lipdTs(gbrcd_baca_tib) 
+
+
+# Plot map of Ba/Ca records in the GBRCD
+  # No colour options (except black) can currently be applied
+mapTs(gbrcd_baca_Ts,
+      lat.range = c(-11.5, -24),
+      lon.range = c(142.5, 153),
+      color = "paleoData_variableName",
+      size = 2)
+
+# Plot summary of Ba/Ca records in the GBRCD
+# Returns map and temporal coverage of data
+  # No colour options can currently be applied
+BaCaSumm <- plotSummaryTs(gbrcd_baca_Ts,
+                           sort.var = "paleoData_variableName",
+                           age.var = "year",
+                           lat.range = c(-11.5, -24),
+                           lon.range = c(142.5, 153),
+                           size = 2 )
+
+```
+
+
+```{r test, message=FALSE, warning = FALSE}
+
+```
+## Select a single record for summary
+
+Any single LiPD file/dataset can be selected and a summary of relevant data produced
+
+```{r GBRCD filter single records2, reults = 'hide', message=FALSE, warning = FALSE}
+
+# Plot a dashboard summarizing Ba/Ca of an individual record in the database
+plotSummary(gbrcd_lipd[[125]], 
+            paleo.age.var = "year",
+            paleo.data.var = "BaCa")
+
+
+```
+
+## Plot GBRCD Ba/Ca 
+
+Prepare and plot LiPD data time series stack of 'modern' Ba/Ca data in the GBR south of 22.5 S (< -22.5)
+
+
+```{r LiPD BaCa plot, message=FALSE, warning = FALSE}
+
+# Create long tibble and filter data
+gbrcd_baca_longTib <- as.lipdTsTibbleLong(gbrcd_baca_Ts) %>% 
+  # Filter for ages after 1950 and latitudes south of 22.5 S
+  filter(year > 1950 & geo_latitude < -22.5) %>%
+  # Filter max Ba/Ca values 
+  filter(paleoData_values <= 0.025) %>% 
+  arrange(desc(dataSetName))
+
+
+# Plot a time series stack from the filtered data 
+plotTimeseriesStack(gbrcd_baca_longTib,
+   color.var = "paleoData_variableName",
+   color.ramp = "#CD661D",
+   lab.size = 2.5,
+   fill.alpha = 0,
+   lab.space = 3,
+   lab.buff = 0.04,
+   scale.factor = 1/8,
+   scale.height = 0.8)
+
+
+```
+
+## Alternate plotting LiPD as tidy TS
+
+Prepare and plot LiPD data for 'modern' (post 1700 CE) Ba/Ca data (entire GBR, southern GBR (i.e. south of 20 S) and southern GBR south of -22.5 since 1950) 
+
+
+```{r GBRCD tidy ggplot, results = 'hide', message=FALSE, warning = FALSE}
+
+# Create tidy TS object and filter for data from 1500s-present
+gbrcd_baca_tidy <- tidyTs(gbrcd_baca_Ts) %>% 
+  filter( year > 1700)
+
+
+
+# Plot all Ba/Ca records for entire GBR
+ggplot(gbrcd_baca_tidy,
+           aes(x = year, y = paleoData_values, colour = dataSetName))+
+  geom_line()+
+  # Restrict y axis for BaCa from -0.025 to 0.1 
+  coord_cartesian(ylim=c(-0.025, 0.1), xlim = c())+
+  # Set colour theme used for records 
+  scale_colour_viridis_d()+
+  # Set plot, y axis and x axis titles  
+  ggtitle("GBR Ba/Ca records")+
+  ylab("Ba/Ca (mmol/mol)")+
+  xlab("Year")+
+  theme_bw()+
+  # Suppress legend due to number of records and centre align title
+  theme(legend.position="none", plot.title = element_text(hjust = 0.5))
+
+
+
+# Plot Ba/Ca records for only the southern GBR
+ggplot(gbrcd_baca_tidy %>% 
+  # Filter four 'southern GBR' latitudes          
+         filter(geo_latitude < -20 ), 
+       aes(x = year, y = paleoData_values, colour = dataSetName))+
+  geom_line()+
+  # Restrict y axis for BaCa from -0.025 to 0.1 
+  coord_cartesian(ylim=c(-0.025, 0.1))+  
+  # Set colour theme used for records  
+  scale_colour_viridis_d()+
+  # Set plot, y axis and x axis titles  
+  ggtitle("Southern GBR Ba/Ca records")+
+  ylab("Ba/Ca (mmol/mol)")+
+  xlab("Year")+
+  theme_bw()+
+  # Centre align title   
+  theme(plot.title = element_text(hjust = 0.5))
+
+
+# Plot only southern GBR and records latitudes south of -22.5
+ggplot(gbrcd_baca_tidy %>%
+  # Filter for select southern GBR latitudes  
+         filter(geo_latitude < -22.5), 
+       aes(x = year, y = paleoData_values))+
+  # Plot all BaCa records as the same colour  
+  geom_line(colour = "#CD661D")+
+  # Restrict y axis for BaCa from 0 to 0.025 and x axis ages to after 1950   
+  coord_cartesian(ylim=c(0, 0.025), xlim=c(1950, 2020))+
+  # Set plot, y axis and x axis titles  
+  ggtitle("Select Southern GBR Ba/Ca records time series stack")+
+  ylab("Ba/Ca (mmol/mol)")+
+  xlab("Year")+
+  # Create record time series stack by ID  
+  facet_grid("dataSetName")+
+  theme_bw()+
+  # Centre align title  & set horizontal direction for facet label
+  theme(plot.title = element_text(hjust = 0.5), strip.text.y = element_text(angle = 0))
+
+
+
+```
+
+## 
