@@ -1,5 +1,5 @@
 ---
-title: "GBRCD Example R Code"
+title: "GBRCD Example R Code for CSV version"
 author: "Ariella Arzey"
 date: "2024-02-05"
 output:
