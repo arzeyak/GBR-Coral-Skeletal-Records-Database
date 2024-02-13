@@ -16,7 +16,7 @@ suppressWarnings(suppressMessages(library(lubridate)))
 
 ## R Markdown document with example code for handling GBRCD
 
-This document contains examples for how users can process, subset and visualise the GBRCD. The example demonstrates how to produce two types of figures; line plots for visualising the record data and maps for visualising locations. The example demonstrates filtering the data by proxy, resolution, age and location.  
+This document contains examples for how users can process, subset and visualise the GBRCD. The example demonstrates filtering the data by proxy, resolution, age and location. The example demonstrates how to produce two types of figures; line plots for visualising the record data and maps for visualising locations. 
 
 This document also provides example code for how to produce each of the area charts included in the GBRCD publication.
 
@@ -36,7 +36,7 @@ qldmap <- ozmaps::ozmap_states %>% filter(NAME == "Queensland")
 ```
 
 ## Load metadata and database files
-# v1.0 is the current version as of Feb. 2024
+# v1.0 is the current version as of February 2024
 ```{r data}
 
 # Read GBRCD metadata file
