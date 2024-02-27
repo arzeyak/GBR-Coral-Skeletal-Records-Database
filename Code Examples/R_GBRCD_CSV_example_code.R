@@ -18,7 +18,6 @@ library(ozmaps)
 # Get Queensland outline from ozmap
 qldmap <- ozmaps::ozmap_states %>% filter(NAME == "Queensland")
 
-```
 
 ## Load metadata and database files
 # v1.0 is the current version as of Feb. 2024
