@@ -12,6 +12,6 @@ The GBRCD only includes records with proxy measurements from coral skeletons (i.
 The GBRCD accepts both published and unpublished records from GBR corals that include:
 * corals from GBR locations (and Flinders Reef due to its regional context and latitudinal relevance). 
 * multi-year (continuous) measurements from coral skeletons. 
-* an age model. Each record needed to include relevant chronology.
+* an age model. Each record needs to include relevant chronology.
 
 <img src="https://github.com/arzeyak/GBR-Coral-Skeletal-Records-Database/assets/47883537/05225eb5-bd87-4fa3-b180-4366b9b40b88" data-canonical-src="https://github.com/arzeyak/GBR-Coral-Skeletal-Records-Database/assets/47883537/05225eb5-bd87-4fa3-b180-4366b9b40b88" height="28"/>
