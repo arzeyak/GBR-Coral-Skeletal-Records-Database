@@ -5,7 +5,7 @@ The GBRCD is available as a CSV version (CSV metadata and files) or a LiPD versi
 
 A description of the database is found in the database description paper available here: XXX
 
-A selection of code for handling the database is available here.
+A selection of code for handling the database is available here on the databases GitHub.
 
 The GBRCD only includes records with proxy measurements from coral skeletons (i.e. geochemical analysis, luminescence), but will archive additional measurements for a coral record alongside target data if it uses the same age model (resolution and time points). 
 
