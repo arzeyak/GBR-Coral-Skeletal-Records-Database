@@ -14,4 +14,10 @@ The GBRCD accepts both published and unpublished records from GBR corals that in
 * multi-year (continuous) measurements from coral skeletons. 
 * an age model. Each record needs to include relevant chronology.
 
+**Please email GBR coral records to be archived in the GBRCD to: GBRCDsubmissions [at] outlook [dot] com**
+
+When submitting published records to the GBRCD team, please provide links to the relevant publication(s). If there is additional information available that is suitable to complete GBRCD metadata fields, which was not included in the publication (e.g. coral ID, IGSN, collection info (such as time and elevation/depth), method of data measurement and method analytical precision/error, age model method, diagenesis screening method(s), etc.), please provide this information alongside the submitted data.
+
+When submitting new/not previously published records, please provide all available relevant information required to complete the GBRCD metadata fields.
+
 <img src="https://github.com/arzeyak/GBR-Coral-Skeletal-Records-Database/assets/47883537/05225eb5-bd87-4fa3-b180-4366b9b40b88" data-canonical-src="https://github.com/arzeyak/GBR-Coral-Skeletal-Records-Database/assets/47883537/05225eb5-bd87-4fa3-b180-4366b9b40b88" height="28"/>
